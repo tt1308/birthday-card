@@ -2,102 +2,153 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday</title>
+<title>Happy Birthday ❤️</title>
+
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: black;
-    overflow: hidden;
-    font-family: 'Courier New', monospace;
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: black;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
 
-  /* Canvas nền code */
-  canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-  }
+/* CANVAS NỀN */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 
-  /* Chữ chính */
-  .typing {
-    position: absolute;
-    z-index: 1;
-    top: 40%;
-    width: 100%;
-    text-align: center;
-    color: #ffffff;
-    font-size: 2rem;
-    line-height: 1.6;
-    text-shadow: 0 0 10px rgba(255,255,255,0.8);
-    white-space: pre-line;
-  }
+/* CHỮ CHÍNH */
+.typing {
+  position: absolute;
+  z-index: 3;
+  top: 38%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+  line-height: 1.7;
+  white-space: pre-line;
+  animation: heartbeat 1.5s infinite;
+  text-shadow: 0 0 15px rgba(255,255,255,0.9);
+}
+
+/* NHỊP TIM */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.05); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
 </style>
 </head>
 
 <body>
 
 <canvas id="matrix"></canvas>
+<canvas id="hearts"></canvas>
 
 <div class="typing" id="text"></div>
 
 <script>
-  /* MATRIX CODE BACKGROUND */
-  const canvas = document.getElementById("matrix");
-  const ctx = canvas.getContext("2d");
+/* ===== MATRIX CODE BACKGROUND ===== */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-  const letters = "01アカサタナハマヤラワ아이사랑생일축하해";
-  const fontSize = 16;
-  const columns = canvas.width / fontSize;
-  const drops = Array(Math.floor(columns)).fill(1);
+const letters = "01사랑생일축하해아이러브유";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
 
-  function drawMatrix() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+function drawMatrix() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#00ff9c";
-    ctx.font = fontSize + "px monospace";
+  ctx.fillStyle = "#00ff99";
+  ctx.font = fontSize + "px monospace";
 
-    for (let i = 0; i < drops.length; i++) {
-      const text = letters.charAt(Math.floor(Math.random() * letters.length));
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters[Math.floor(Math.random() * letters.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
+      drops[i] = 0;
     }
+    drops[i]++;
   }
+}
+setInterval(drawMatrix, 35);
 
-  setInterval(drawMatrix, 35);
+/* ===== HEART FALLING EFFECT ===== */
+const heartCanvas = document.getElementById("hearts");
+const hctx = heartCanvas.getContext("2d");
 
-  /* TYPING EFFECT */
-  const message = `사랑하는 사람에게,
+heartCanvas.width = window.innerWidth;
+heartCanvas.height = window.innerHeight;
+
+const hearts = [];
+
+function createHeart() {
+  hearts.push({
+    x: Math.random() * heartCanvas.width,
+    y: -20,
+    size: Math.random() * 12 + 8,
+    speed: Math.random() * 0.6 + 0.4
+  });
+}
+
+function drawHearts() {
+  hctx.clearRect(0, 0, heartCanvas.width, heartCanvas.height);
+  hctx.fillStyle = "rgba(255, 105, 180, 0.7)";
+
+  hearts.forEach((h, i) => {
+    hctx.font = h.size + "px Arial";
+    hctx.fillText("❤", h.x, h.y);
+    h.y += h.speed;
+
+    if (h.y > heartCanvas.height) hearts.splice(i, 1);
+  });
+}
+
+setInterval(createHeart, 400);
+
+function animateHearts() {
+  drawHearts();
+  requestAnimationFrame(animateHearts);
+}
+animateHearts();
+
+/* ===== TYPING TEXT ===== */
+const message = `사랑하는 사람에게,
 생일 축하해.
-앞으로도 정말 많이 사랑할게.`;
+나를 정말 많이 사랑해야 해.
+매일매일 행복하길 바랄게.
+사랑해.`;
 
-  let index = 0;
-  const speed = 80;
+let index = 0;
+const speed = 80;
 
-  function typeText() {
-    if (index < message.length) {
-      document.getElementById("text").innerHTML += message.charAt(index);
-      index++;
-      setTimeout(typeText, speed);
-    }
+function typeText() {
+  if (index < message.length) {
+    document.getElementById("text").innerHTML += message.charAt(index);
+    index++;
+    setTimeout(typeText, speed);
   }
+}
+typeText();
 
-  typeText();
-
-  window.onresize = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  };
+/* RESIZE */
+window.onresize = () => {
+  canvas.width = heartCanvas.width = window.innerWidth;
+  canvas.height = heartCanvas.height = window.innerHeight;
+};
 </script>
 
 </body>
