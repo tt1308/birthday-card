@@ -70,17 +70,22 @@ canvas {
 
 <body>
 
+<!-- 🎵 NHẠC NỀN -->
+<audio id="bgm" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <canvas id="matrix"></canvas>
 <canvas id="hearts"></canvas>
 
 <div id="slideshow">
-  <img src="1.jpg" alt="photo 1">
-  <img src="2.jpg" alt="photo 2">
-  <img src="3.jpg" alt="photo 3">
-  <img src="4.jpg" alt="photo 4">
-  <img src="5.jpg" alt="photo 5">
-  <img src="6.jpg" alt="photo 6">
-  <img src="7.jpg" alt="photo 7">
+  <img src="1.jpg">
+  <img src="2.jpg">
+  <img src="3.jpg">
+  <img src="4.jpg">
+  <img src="5.jpg">
+  <img src="6.jpg">
+  <img src="7.jpg">
 </div>
 
 <div class="typing" id="text"></div>
@@ -174,6 +179,13 @@ function typeText() {
   }
 }
 typeText();
+
+/* 🎵 BẬT NHẠC KHI CLICK LẦN ĐẦU */
+document.body.addEventListener("click", () => {
+  const music = document.getElementById("bgm");
+  music.volume = 0.4;
+  music.play();
+});
 
 /* RESIZE */
 window.onresize = () => {
