@@ -1,36 +1,104 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Birthday 🎂</title>
-  <style>
-    body {
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: Arial, sans-serif;
-      text-align: center;
-      color: #fff;
-      padding-top: 100px;
-    }
-    h1 {
-      font-size: 50px;
-    }
-    p {
-      font-size: 22px;
-    }
-    .heart {
-      font-size: 40px;
-      animation: beat 1s infinite;
-    }
-    @keyframes beat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Happy Birthday</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Canvas nền code */
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+
+  /* Chữ chính */
+  .typing {
+    position: absolute;
+    z-index: 1;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 2rem;
+    line-height: 1.6;
+    text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    white-space: pre-line;
+  }
+</style>
 </head>
+
 <body>
-  <h1>🎉 Happy Birthday 🎉</h1>
-  <p>Chúc bạn một tuổi mới thật nhiều niềm vui, bình an và hạnh phúc 💖</p>
-  <div class="heart">❤️</div>
+
+<canvas id="matrix"></canvas>
+
+<div class="typing" id="text"></div>
+
+<script>
+  /* MATRIX CODE BACKGROUND */
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const letters = "01アカサタナハマヤラワ아이사랑생일축하해";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ff9c";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 35);
+
+  /* TYPING EFFECT */
+  const message = `사랑하는 사람에게,
+생일 축하해.
+앞으로도 정말 많이 사랑할게.`;
+
+  let index = 0;
+  const speed = 80;
+
+  function typeText() {
+    if (index < message.length) {
+      document.getElementById("text").innerHTML += message.charAt(index);
+      index++;
+      setTimeout(typeText, speed);
+    }
+  }
+
+  typeText();
+
+  window.onresize = () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  };
+</script>
+
 </body>
 </html>
-
