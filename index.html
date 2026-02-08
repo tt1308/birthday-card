@@ -175,7 +175,7 @@ function typeText() {
   if (index < message.length) {
     document.getElementById("text").innerHTML += message.charAt(index);
     index++;
-    setTimeout(typeText, 80);
+    setTimeout(typeText, 500);
   }
 }
 typeText();
