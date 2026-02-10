@@ -57,6 +57,22 @@ canvas {
   text-shadow: 0 0 15px rgba(255,255,255,0.9);
 }
 
+/* NÚT NHẠC */
+#musicBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 22px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: none;
+  background: #ff6b81;
+  color: white;
+  cursor: pointer;
+  z-index: 5;
+}
+
 /* NHỊP TIM */
 @keyframes heartbeat {
   0% { transform: scale(1); }
@@ -70,10 +86,13 @@ canvas {
 
 <body>
 
-<!-- 🎵 NHẠC NỀN -->
+<!-- 🎵 NHẠC -->
 <audio id="bgm" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
+
+<!-- 🎵 NÚT BẬT NHẠC -->
+<button id="musicBtn">🎵 음악 켜기</button>
 
 <canvas id="matrix"></canvas>
 <canvas id="hearts"></canvas>
@@ -89,16 +108,18 @@ canvas {
 </div>
 
 <div class="typing" id="text"></div>
+
 <script>
-const music = document.getElementById("bgMusic");
+/* ===== MUSIC BUTTON ===== */
+const music = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
 btn.addEventListener("click", () => {
+  music.volume = 0.4;
   music.play();
   btn.innerText = "🎶 음악 재생 중";
 });
-</script>
-<script>
+
 /* ===== MATRIX ===== */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
@@ -192,13 +213,6 @@ function typeText() {
   }
 }
 typeText();
-
-/* 🎵 BẬT NHẠC KHI CLICK LẦN ĐẦU */
-document.body.addEventListener("click", () => {
-  const music = document.getElementById("bgm");
-  music.volume = 0.4;
-  music.play();
-});
 
 /* RESIZE */
 window.onresize = () => {
