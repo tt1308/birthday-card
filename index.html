@@ -89,7 +89,15 @@ canvas {
 </div>
 
 <div class="typing" id="text"></div>
+<script>
+const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
 
+btn.addEventListener("click", () => {
+  music.play();
+  btn.innerText = "🎶 음악 재생 중";
+});
+</script>
 <script>
 /* ===== MATRIX ===== */
 const canvas = document.getElementById("matrix");
